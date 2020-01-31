@@ -51,6 +51,11 @@
 // Send data to sensor.community server?
 // Should always be 1 so that the data is archived there. Standard server for devices without LoRa.
 #define SEND2SENSORCOMMUNITY 1
+// Send data to your own server?
+// Set this to an http URL to send gathered data to your own server
+// #define MYSERVER "http://myserver.tld/mydata.php"
+// #define MYSERVER_NAME "somename"
+
 // Send data via LoRa to TTN?
 // Only for devices with LoRa, automatically deactivated for devices without LoRa.
 // If this is set to 1, sending to Madavi and sensor.community should be deactivated!

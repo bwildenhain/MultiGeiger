@@ -632,24 +632,27 @@ void loop()
     delay(300);
     #endif
 
-    #if SEND2MADAVI
-    Serial.println("Sending to Madavi ...");
-    displayStatusLine("Madavi");
-    sendData2http(MADAVI,SEND_CPM,hvp,false);
-    if(haveBME280) {
-      sendData2http(MADAVI,SEND_BME,hvp,false);
-    }
+    #define SEND_DATA_VIA_HTTP(URL, NAME) \
+    Serial.print("Sending to "); \
+    Serial.print(NAME); \
+    Serial.println(" ..."); \
+    displayStatusLine(NAME); \
+    sendData2http(URL,SEND_CPM,hvp,false); \
+    if(haveBME280) { \
+      sendData2http(URL,SEND_BME,hvp,false); \
+    } \
     delay(300);
+    
+    #if SEND2MADAVI
+    SEND_DATA_VIA_HTTP(MADAVI, "Madavi");
+    #endif
+    
+    #if SEND2SENSORCOMMUNITY
+    SEND_DATA_VIA_HTTP(SENSORCOMMUNITY, "sensor.community");
     #endif
 
-    #if SEND2SENSORCOMMUNITY
-    Serial.println("Sending to sensor.community ...");
-    displayStatusLine("sensor.community");
-    sendData2http(SENSORCOMMUNITY,SEND_CPM,hvp,false);
-    if(haveBME280) {
-      sendData2http(SENSORCOMMUNITY,SEND_BME,hvp,false);
-    }
-    delay(300);
+    #ifdef MYSERVER
+    SEND_DATA_VIA_HTTP(MYSERVER, MYSERVER_NAME)
     #endif
 
     #if SEND2LORA
